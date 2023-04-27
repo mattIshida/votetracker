@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
@@ -104,4 +104,161 @@ a {
   html {
     color-scheme: dark;
   }
+} */
+
+
+
+.billCard {
+  background: black;
+  max-width: 600px;
+  margin: 10px;
+}
+
+.legislatorCard {
+  max-width: 600px;
+  min-width: 300px;
+  margin: 10px;
+  width: 20%; 
+}
+
+.issueCard {
+  max-width: 600px;
+  min-width: 300px;
+  margin: 10px;
+  width: 20%; 
+}
+
+.commentCard, .commentForm {
+  margin: 10px;
+}
+
+.billContainer {
+  display: flex;
+  flex-direction: row;
+  margin: auto; 
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.detailsButton {
+  position: relative;
+  margin:auto;
+  bottom: 1rem;
+}
+
+.tagLink {
+  font-size: 8pt;
+  background: red;
+  color: red; 
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.memberRow {
+  display: flex;
+  border-style: solid;
+  justify-content: space-between;
+  border-width: 1px 0px 0px 0px;
+  min-height: 2rem;
+}
+
+
+.memberRowLabel {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  min-width: 10rem;
+  padding: .1rem .05rem;
+  padding-right: 2rem;
+  align-content: center;
+}
+
+.memberNameLabel {
+  display: block;
+}
+
+.tileRow {
+  display: flex;
+  align-content: center;
+  justify-content: end;
+}
+
+
+.positionTile {
+  width: .6rem;
+  height: .75rem;
+  margin-top: .2rem;
+  margin-bottom: .2rem;
+  margin-right: .07rem;
+}
+
+.FillYes {
+  background-color: green;
+  border-top-right-radius: 15%;
+  border-top-left-radius: 15%;
+}
+
+.FillNo {
+  background-color: red;
+  margin-top: .95rem;
+  border-bottom-right-radius: 15%;
+  border-bottom-left-radius: 15%;
+}
+
+.FillNotVoting {
+  background-color: #ffffff;
+  border-color: gray;
+  border-width: 1px;
+  margin-top: 8px;
+  border-style: solid;
+  border-radius: 25%;
+}
+
+
+
+
+
+.shade1 {
+  background-color: rgb(218, 217, 217);
+}
+
+.blankTile {
+  height: 0px;
+}
+
+.loaderContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pageSelected {
+  text-decoration: underline;
+  cursor: auto;
+}
+
+.pageSelected:hover {
+  cursor: default;
+}
+
+.pageNotSelected:hover{
+  cursor: pointer;
+}
+
+.pageNumber {
+  margin: 0rem .06rem;
 }
