@@ -1,8 +1,11 @@
 import PositionTile from './PositionTile'
 
-function MemberRow({ member, votes, shades, setFilter, controlOptions }){
+function MemberRow({ member, votes, shades, setFilter, filter, controlOptions }){
+
+    const highlightRow = filter?.member?.id === member.id
 
     const positionTiles = member?.positions.positions?.map((positionObj, i) => {
+
         return <PositionTile 
                 key={positionObj.id} 
                 position={positionObj} 
@@ -10,13 +13,16 @@ function MemberRow({ member, votes, shades, setFilter, controlOptions }){
                 shade={shades.at(i)} 
                 member={member} 
                 idx={i}
+                highlightRow={highlightRow? 'highlightRow': ''}
+                highlightCol={filter.voteFilter === i ? 'highlightCol': ''}
                 setFilter={setFilter}
                 controlOptions={controlOptions}
                 />
     })
 
+    //const highlightRow = true ? 'highlightRow' : "none"
     return(
-        <div className='memberRow'>
+        <div className={`memberRow ${highlightRow ? 'highlightRow': ''}`}>
             <div className='memberRowLabel'>
                     
                     <div className='memberNameLabel'>
@@ -24,7 +30,7 @@ function MemberRow({ member, votes, shades, setFilter, controlOptions }){
                     </div>
 
                     <div className='memberStateLabel'>
-                        {`${member.state}${member.district ? `-${member.district}`: ''}`}
+                        {`${member.state}${member.district && member.district !== 'At-Large' ? `-${member.district}`: ''}`}
                     </div>
 
 

@@ -9,15 +9,15 @@ import NavBar from "../../../../../components/NavBar"
 // import UserHome from "./components/UserHome"
 // import IssuesPage from "./components/IssuesPage"
 import Board from '../../../../../components/Board'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import Controls from '../../../../../components/Controls'
 import Loading from '../../../../../components/Loading'
 import { Pagination } from 'react-bootstrap'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-//const URL = "http://localhost:9292"
-const URL = 'http://backend:9292'
+const URL = "http://localhost:9292"
+//const URL = 'http://backend:9292'
 
 function MyApp({ members, votes, vote_count }) {
 
@@ -89,44 +89,80 @@ function MyApp({ members, votes, vote_count }) {
   console.log('members', members)
   console.log('total pages', totalPages)
   console.log('currentPage', currentPage)
+  console.log('filter',filter)
 
 
-  return <>
-  {members?.length==0 || votes?.length==0  || members===undefined || votes === undefined ? <Loading/> :
-  <>
+
+  const showingSimilar = filter.partyFilter.length>0 || filter.positionFilter.length >0 || filter.voteFilter
+
+  return (
+    <>
+      {members?.length==0 || votes?.length==0  || members===undefined || votes === undefined ? <Loading/> :
+      
+      <>
+
+        {showingSimilar ? 
+        
+          <>
+
+            {`Showing votes similar to ${filter.member?.last_name}'s ${filter.positionFilter} on ${filter.voteFilter}` }
+            
+            <Button onClick={()=>{
+              setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
+              }}>Done
+            </Button>
+
+          </>
+        
+        : null}
+
     
-    <Button onClick={()=>{
-      setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
-    }}>Clear filters
-    </Button>
+      <Controls votes={votes} 
+        members={members} 
+        controlOptions={controlOptions} 
+        setControlOptions={setControlOptions} 
+        disabled={showingSimilar}
+      />
+
+      <Form.Select disabled={showingSimilar} value ={suffix} onChange={handleSelectMonth}>
+        {vote_count?.map(countObj => <option 
+          key={`${countObj.chamber}/${countObj.year}/${countObj.month}`} 
+          value={`/${countObj.chamber}/${countObj.year}/${countObj.month}/1`}>
+            {`${capitalize(countObj.chamber)}, ${monthFromNumeral(countObj.month)} ${countObj.year}`}
+          </option>) }
+      </Form.Select>
     
-    <Controls votes={votes} members={members} controlOptions={controlOptions} setControlOptions={setControlOptions}/>
-    
-    {filter.partyFilter.length>0 || filter.positionFilter.length >0 || filter.voteFilter ? `Showing votes similar to ${filter.member?.last_name}'s ${filter.positionFilter} on ${filter.voteFilter}` : null}
-    
-    <Form.Select value ={suffix} onChange={handleSelectMonth}>
-      {vote_count?.map(countObj => <option key={`${countObj.chamber}/${countObj.year}/${countObj.month}`} value={`/${countObj.chamber}/${countObj.year}/${countObj.month}/1`}>{`${capitalize(countObj.chamber)}, ${monthFromNumeral(countObj.month)} ${countObj.year}`}</option>) }
-    </Form.Select>
-    
-    <Pagination size='sm'>
-      {totalPages > 0 ? Array(totalPages).fill().map((x, i)=> i+1).map((n)=> {
-        return <Pagination.Item key={n} active={currentPage==n} onClick={()=>{
-          setCurrentPage(n)
-          router.push(`/MyApp/${chamber}/${year}/${month}/${n}`)}}>{n}</Pagination.Item>
-      }): null}
-    </Pagination>
+      <Button onClick={()=>{
+        setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
+        setControlOptions({alignment: ''})
+      }}>Reset filters</Button>
 
 
-    <Board 
-      members={filteredMembers.slice(0,1000)} 
-      votes={votes}
-      shades={shades}
-      setFilter={setFilter}
-      controlOptions={controlOptions}
-    />
-    </>
+
+      <Pagination size='sm'>
+        {totalPages > 0 ? Array(totalPages).fill().map((x, i)=> i+1).map((n)=> {
+          return <Pagination.Item key={n} active={currentPage==n} onClick={()=>{
+            setCurrentPage(n)
+            router.push(`/MyApp/${chamber}/${year}/${month}/${n}`)}}>{n}</Pagination.Item>
+        }): null}
+      </Pagination>
+
+
+
+
+      <Board 
+        members={filteredMembers.slice(0,1000)} 
+        votes={votes}
+        shades={shades}
+        setFilter={setFilter}
+        filter={filter}
+        controlOptions={controlOptions}
+      />
+
+
+      </>
     }
-  </>
+  </>)
 }
 
 export default MyApp;

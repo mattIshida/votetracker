@@ -2,10 +2,10 @@ import { Container } from 'react-bootstrap'
 import MemberRow from './MemberRow'
 import { useEffect } from 'react'
 
-function Board({ members, votes, shades, setFilter, controlOptions }){
+function Board({ members, votes, shades, setFilter, filter, controlOptions }){
 
     const memberRows = members?.map((member)=>{
-        return <MemberRow member={member} key={member.id} votes={votes} shades={shades} setFilter={setFilter} controlOptions={controlOptions}/>
+        return <MemberRow member={member} key={member.id} votes={votes} shades={shades} setFilter={setFilter} filter={filter} controlOptions={controlOptions}/>
     })
 
     useEffect(()=>{

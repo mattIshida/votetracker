@@ -175,6 +175,13 @@ code {
   min-height: 2rem;
 }
 
+.highlightRow {
+  background-color: #E0FFFF !important;;
+}
+
+.highlightCol {
+  background-color: #66CCCC !important;;
+}
 
 .memberRowLabel {
   width: 50%;
@@ -237,6 +244,7 @@ code {
 
 .blankTile {
   height: 0px;
+  border-width: 0px;
 }
 
 .loaderContainer {
