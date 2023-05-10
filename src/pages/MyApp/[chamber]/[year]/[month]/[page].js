@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import NavBar from "../../../../../components/NavBar"
 // import Home from "./components/Home"
 // import About from "./components/About"
@@ -9,12 +9,13 @@ import NavBar from "../../../../../components/NavBar"
 // import UserHome from "./components/UserHome"
 // import IssuesPage from "./components/IssuesPage"
 import Board from '../../../../../components/Board'
-import { Button, Form, Pagination, Alert, Container, Navbar } from 'react-bootstrap'
+import { Button, Form, Pagination, Alert, Container, Navbar, Row, Col, Overlay } from 'react-bootstrap'
 import Controls from '../../../../../components/Controls'
 import Loading from '../../../../../components/Loading'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import chroma from "chroma-js"
+import { FaRegQuestionCircle } from 'react-icons/fa'
 
 const URL = "http://localhost:9292"
 //const URL = 'http://backend:9292'
@@ -127,23 +128,71 @@ function MyApp({ members, votes, vote_count }) {
 
   const showingSimilar = filter.partyFilter.length>0 || filter.positionFilter.length >0 || filter.voteFilter
 
+  const [showAlignmentTooltip, setShowAlignmentTooltip] = useState(false)
+  const questionMark = useRef(null)
+
   return (
     <>
       
       {members?.length==0 || votes?.length==0  || members===undefined || votes === undefined ? <Loading/> :
       
       <>
+        <Row>
+          <Col>
+            <Form.Group>
+              <Form.Label>Chamber and Month</Form.Label>            
+              <Form.Select disabled={showingSimilar} value ={suffix} onChange={handleSelectMonth}>
+                {vote_count?.map(countObj => <option 
+                  key={`${countObj.chamber}/${countObj.year}/${countObj.month}`} 
+                  value={`/${countObj.chamber}/${countObj.year}/${countObj.month}/1`}>
+                    {`${capitalize(countObj.chamber)}, ${monthFromNumeral(countObj.month)} ${countObj.year}`}
+                  </option>) }
+              </Form.Select>
+            </Form.Group>
+          </Col>
+
+          <Col>
+            <Form.Group>
+                    <Form.Label ref={questionMark}>Highlight by Alignment <FaRegQuestionCircle  onMouseLeave={()=>{setShowAlignmentTooltip(false)}} onMouseEnter={()=>{setShowAlignmentTooltip(true)
+                      console.log('showAlignmentTooltip', showAlignmentTooltip)
+                    }} style={{paddingBottom: '4px', fontSize: '1.3rem'}}/></Form.Label>            
+                    <Form.Select name='alignment' value={controlOptions.alignment} onChange={e => setControlOptions({...controlOptions, [e.target.name]: e.target.value})}>
+                        <option value=''>(Select)</option>
+                        <option value='alignmentWithParty'>Party Alignment</option>
+                        <option value='nonAlignmentWithParty'>Party Non-alignment</option>
+                        <option value='alignmentWithChamber'>Chamber Alignment</option>
+                        <option value='nonAlignmentWithChamber'>Chamber Non-alignment</option>
+                    </Form.Select>
+            </Form.Group>
+          </Col>
+          <Overlay target={questionMark.current} show={showAlignmentTooltip} placement="right">
+        {({
+          placement: _placement,
+          arrowProps: _arrowProps,
+          show: _show,
+          popper: _popper,
+          hasDoneInitialMeasure: _hasDoneInitialMeasure,
+          ...props
+        }) => (
+          <div
+            {...props}
+            style={{
+              position: 'absolute',
+              backgroundColor: 'black',
+              padding: '2px 10px',
+              color: 'white',
+              borderRadius: 3,
+              borderWidth: '1px',
+              ...props.style,
+              maxWidth: '16rem'
+            }}
+          >
+            Make atypical votes stand out by selecting non-alignment
+          </div>
+        )}
+      </Overlay>   
+        </Row>
         
-        <Form.Select disabled={showingSimilar} value ={suffix} onChange={handleSelectMonth}>
-          {vote_count?.map(countObj => <option 
-            key={`${countObj.chamber}/${countObj.year}/${countObj.month}`} 
-            value={`/${countObj.chamber}/${countObj.year}/${countObj.month}/1`}>
-              {`${capitalize(countObj.chamber)}, ${monthFromNumeral(countObj.month)} ${countObj.year}`}
-            </option>) }
-        </Form.Select>
-
-       
-
     
       <Controls votes={votes} 
         members={members} 

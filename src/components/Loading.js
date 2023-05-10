@@ -1,4 +1,4 @@
-import { BarLoader, PuffLoader } from "react-spinners"
+import { PuffLoader } from "react-spinners"
 
 function Loading(){
     return (

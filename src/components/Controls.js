@@ -19,16 +19,16 @@ function Controls({ votes, members, controlOptions, setControlOptions, disabled 
 
     return(
         <>
-            <Row>
+            <Row className='my-3'>
                 
-                <Col xs={8}> 
+                <Col xs={6}> 
                 <Form.Label>Search by member name</Form.Label>
                 <InputGroup >
                     <Form.Control name='searchMember' type='text' value={formData.searchMember} onChange={(e)=>setFormData({searchMember: e.target.value})}></Form.Control>
                     <Button onClick={()=>setControlOptions({...controlOptions, searchMember: formData.searchMember.toLowerCase()})}>Search</Button>
                 </InputGroup>
                 </Col> 
-                <Form.Group as={Col} xs={2}>
+                <Form.Group as={Col} xs={3}>
                     <Form.Label>Party</Form.Label>       
                     <Form.Select name='party' value={controlOptions.party || ''} onChange={handleChange}>
                         <option value=''>(Select)</option>
@@ -37,7 +37,7 @@ function Controls({ votes, members, controlOptions, setControlOptions, disabled 
                         })}
                     </Form.Select>
                 </Form.Group> 
-                <Form.Group as={Col} xs={2}>
+                <Form.Group as={Col} xs={3}>
                     <Form.Label>State</Form.Label>         
                     <Form.Select name='state' value={controlOptions.state || ''} onChange={handleChange}>
                         <option value=''>(Select)</option>
@@ -47,7 +47,7 @@ function Controls({ votes, members, controlOptions, setControlOptions, disabled 
                     </Form.Select>
                 </Form.Group>
             </Row>
-            <Row>
+            <Row className='my-3'>
                 <Form.Group as={Col}>
                     <Form.Label>Vote Type</Form.Label>
                     <Form.Select disabled={disabled} name='voteType' value={controlOptions.voteType || ''} onChange={handleChange}>
@@ -71,16 +71,16 @@ function Controls({ votes, members, controlOptions, setControlOptions, disabled 
 
             
 
-            <Form.Group>
+            {/* <Form.Group>
                 <Form.Label>Highlight by Alignment</Form.Label>            
-                <Form.Select name='alignment' value={controlOptions.alignment} onChange={handleChange}>
+                <Form.Select name='alignment' value={controlOptions.alignment} onChange={e => setControlOptions({...controlOptions, [e.target.name]: e.target.value})}>
                     <option value=''>(Select)</option>
                     <option value='alignmentWithParty'>Party Alignment</option>
                     <option value='nonAlignmentWithParty'>Party Non-alignment</option>
                     <option value='alignmentWithChamber'>Chamber Alignment</option>
                     <option value='nonAlignmentWithChamber'>Chamber Non-alignment</option>
                 </Form.Select>
-            </Form.Group>   
+            </Form.Group>    */}
             
             
         </>
