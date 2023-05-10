@@ -189,7 +189,7 @@ code {
   justify-content: space-between;
   min-width: 10rem;
   padding: .1rem .05rem;
-  padding-right: 2rem;
+  /* padding-right: 2rem; */
   align-content: center;
 }
 

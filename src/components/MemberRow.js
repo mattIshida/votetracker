@@ -30,13 +30,12 @@ function MemberRow({ member, votes, shades, setFilter, filter, controlOptions, c
                         {`${member.first_name} ${member.last_name} (${member.party})`}
                     </div>
 
-                    <div className='memberStateLabel'>
+                    <div className='memberStateLabel' style={{display: 'flex', justifyContent: 'center', width: '3.5rem'}}>
                         {`${member.state}${member.district && member.district !== 'At-Large' ? `-${member.district}`: ''}`}
                     </div>
 
 
             </div>
-            
             <div className="tileRow">
                 {positionTiles}
             </div>
