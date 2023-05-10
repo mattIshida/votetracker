@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
     <>
     
     <NavBar />
-    <Container className="Board sm-col-10 md-col-8 col-lg-6 xl-col-4 my-3">
+    <Container className="col-sm-12 col-md-10 col-lg-8 col-xl-6 col-xxl-5 my-3">
       <Component {...pageProps} />
     </Container>
   </>  

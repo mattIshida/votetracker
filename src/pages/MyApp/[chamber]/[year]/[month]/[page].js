@@ -177,7 +177,9 @@ function MyApp({ members, votes, vote_count }) {
       }}>Reset filters</Button>
 
 
-      <Container className='justify-content-center'>
+      <Container>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+
         <Pagination size='sm' >
           {totalPages > 1 ? Array(totalPages).fill().map((x, i)=> i+1).map((n)=> {
             return <Pagination.Item key={n} active={currentPage==n} onClick={()=>{
@@ -185,6 +187,7 @@ function MyApp({ members, votes, vote_count }) {
               router.push(`/MyApp/${chamber}/${year}/${month}/${n}`)}}>{n}</Pagination.Item>
           }): null}
         </Pagination>
+        </div>
       </Container>
       
 
