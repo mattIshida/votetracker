@@ -9,7 +9,7 @@ import NavBar from "../../../../../components/NavBar"
 // import UserHome from "./components/UserHome"
 // import IssuesPage from "./components/IssuesPage"
 import Board from '../../../../../components/Board'
-import { Button, Form, Pagination, Alert, Container} from 'react-bootstrap'
+import { Button, Form, Pagination, Alert, Container, Navbar } from 'react-bootstrap'
 import Controls from '../../../../../components/Controls'
 import Loading from '../../../../../components/Loading'
 import Link from 'next/link'
@@ -129,10 +129,11 @@ function MyApp({ members, votes, vote_count }) {
 
   return (
     <>
+      
       {members?.length==0 || votes?.length==0  || members===undefined || votes === undefined ? <Loading/> :
       
       <>
-
+        
         <Form.Select disabled={showingSimilar} value ={suffix} onChange={handleSelectMonth}>
           {vote_count?.map(countObj => <option 
             key={`${countObj.chamber}/${countObj.year}/${countObj.month}`} 
@@ -145,9 +146,9 @@ function MyApp({ members, votes, vote_count }) {
         
           <Alert variant='light' style={{borderWidth: '1px', borderColor: 'black'}}>
 
-            <Alert.Heading>{`Showing votes similar to ${filter.member?.first_name} ${filter.member?.last_name}'s ${filter.positionFilter} on ${votes[filter.voteFilter].votable_id.toUpperCase()}` }
+            <Alert.Heading>{`Showing votes similar to ${filter.member?.first_name} ${filter.member?.last_name}'s ${filter.positionFilter} on ${votes[filter.voteFilter].votable_id?.toUpperCase()}` }
             </Alert.Heading>
-            <p>{votes[filter.voteFilter].votable.short_title}</p>
+            <p>{votes[filter.voteFilter].votable?.short_title}</p>
             <p>{votes[filter.voteFilter].title}</p>
 
             <div className="d-flex justify-content-end">
