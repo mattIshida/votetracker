@@ -142,26 +142,7 @@ function MyApp({ members, votes, vote_count }) {
             </option>) }
         </Form.Select>
 
-        {showingSimilar ? 
-        
-          <Alert variant='light' style={{borderWidth: '1px', borderColor: 'black'}}>
-
-            <Alert.Heading>{`Showing votes similar to ${filter.member?.first_name} ${filter.member?.last_name}'s ${filter.positionFilter} on ${votes[filter.voteFilter].votable_id?.toUpperCase()}` }
-            </Alert.Heading>
-            <p>{votes[filter.voteFilter].votable?.short_title}</p>
-            <p>{votes[filter.voteFilter].title}</p>
-
-            <div className="d-flex justify-content-end">
-
-            <Button onClick={()=>{
-              setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
-              }}>Done
-            </Button>
-            </div>
-
-          </Alert>
-        
-        : null}
+       
 
     
       <Controls votes={votes} 
@@ -189,7 +170,24 @@ function MyApp({ members, votes, vote_count }) {
         </Pagination>
         </div>
       </Container>
+      {showingSimilar ? 
+        
+        <Alert variant='success'>
+
+          
+          <div className="d-flex justify-content-between">
+          
+          <p style={{paddingTop: '8px', marginBottom: '0px'}}>{`Showing votes similar to ${filter.member?.first_name} ${filter.member?.last_name}'s ${filter.positionFilter} vote on ${votes[filter.voteFilter].votable_id?.toUpperCase()}` }</p>
+
+          <Button variant="outline-success" onClick={()=>{
+            setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
+            }}>Done
+          </Button>
+          </div>
+
+        </Alert>
       
+      : null}
 
 
 
