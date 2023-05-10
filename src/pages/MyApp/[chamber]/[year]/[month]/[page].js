@@ -161,10 +161,10 @@ function MyApp({ members, votes, vote_count }) {
                     }} style={{paddingBottom: '4px', fontSize: '1.3rem'}}/></Form.Label>            
                     <Form.Select name='alignment' value={controlOptions.alignment} onChange={e => setControlOptions({...controlOptions, [e.target.name]: e.target.value})}>
                         <option value=''>(Select)</option>
-                        <option value='alignmentWithParty'>Party Alignment</option>
-                        <option value='nonAlignmentWithParty'>Party Non-alignment</option>
-                        <option value='alignmentWithChamber'>Chamber Alignment</option>
-                        <option value='nonAlignmentWithChamber'>Chamber Non-alignment</option>
+                        <option value='nonAlignmentWithParty'>Non-alignment with party</option>
+                        <option value='alignmentWithParty'>Alignment with party</option>
+                        <option value='nonAlignmentWithChamber'>Non-alignment with chamber</option>
+                        <option value='alignmentWithChamber'>Alignment with chamber</option>
                     </Form.Select>
             </Form.Group>
           </Col>
