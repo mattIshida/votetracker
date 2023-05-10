@@ -2,7 +2,7 @@ import Popover from 'react-bootstrap/Popover';
 import { Button, Overlay } from 'react-bootstrap';
 import { useState, useRef } from 'react'
 
-function PositionTile({ position, vote, shade, member, idx, setFilter, controlOptions, highlightRow, highlightCol }){
+function PositionTile({ position, vote, shade, member, idx, setFilter, controlOptions, highlightRow, highlightCol, colorLookup }){
     
     const positionClass = position.vote_position.replaceAll(' ','')
     if (member.party != 'D' && member.party != 'R'){
@@ -43,7 +43,8 @@ function PositionTile({ position, vote, shade, member, idx, setFilter, controlOp
             <div ref={target}
                 onMouseEnter={handlePopoverClick} 
                 onMouseLeave={handlePopoverClose} 
-                className={`positionTile Fill${positionClass} ${blankTileVotable} ${blankTileQuestion}`} style={{opacity: opacity}}>
+                className={`positionTile Fill${positionClass} ${blankTileVotable} ${blankTileQuestion}`} 
+                style={colorLookup[position.vote_position] ? {opacity: opacity, backgroundColor: colorLookup[position.vote_position]} : {opacity: opacity}}>
             </div>
         </div>    
 

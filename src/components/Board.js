@@ -2,15 +2,20 @@ import { Container } from 'react-bootstrap'
 import MemberRow from './MemberRow'
 import { useEffect } from 'react'
 
-function Board({ members, votes, shades, setFilter, filter, controlOptions }){
+function Board({ members, votes, shades, setFilter, filter, controlOptions, colorLookup }){
 
     const memberRows = members?.map((member)=>{
-        return <MemberRow member={member} key={member.id} votes={votes} shades={shades} setFilter={setFilter} filter={filter} controlOptions={controlOptions}/>
+        return <MemberRow 
+            member={member} 
+            key={member.id} 
+            votes={votes} 
+            shades={shades} 
+            setFilter={setFilter} 
+            filter={filter} 
+            controlOptions={controlOptions}
+            colorLookup={colorLookup}
+        />
     })
-
-    useEffect(()=>{
-        console.log('component has finished rendering')
-    },[])
 
     return(
         <>

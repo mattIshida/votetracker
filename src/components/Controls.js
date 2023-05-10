@@ -20,6 +20,14 @@ function Controls({ votes, members, controlOptions, setControlOptions, disabled 
     return(
         <>
             <Row>
+                
+                <Col xs={8}> 
+                <Form.Label>Search by member name</Form.Label>
+                <InputGroup >
+                    <Form.Control name='searchMember' type='text' value={formData.searchMember} onChange={(e)=>setFormData({searchMember: e.target.value})}></Form.Control>
+                    <Button onClick={()=>setControlOptions({...controlOptions, searchMember: formData.searchMember.toLowerCase()})}>Search</Button>
+                </InputGroup>
+                </Col> 
                 <Form.Group as={Col} xs={2}>
                     <Form.Label>Party</Form.Label>       
                     <Form.Select name='party' value={controlOptions.party || ''} onChange={handleChange}>
@@ -38,12 +46,6 @@ function Controls({ votes, members, controlOptions, setControlOptions, disabled 
                         })}
                     </Form.Select>
                 </Form.Group>
-                <Col xs={8}> 
-                <InputGroup >
-                    <Form.Control name='searchMember' type='text' value={formData.searchMember} onChange={(e)=>setFormData({searchMember: e.target.value})}></Form.Control>
-                    <Button onClick={()=>setControlOptions({...controlOptions, searchMember: formData.searchMember})}>Search</Button>
-                </InputGroup>
-                </Col> 
             </Row>
             <Row>
                 <Form.Group as={Col}>

@@ -1,6 +1,6 @@
 import PositionTile from './PositionTile'
 
-function MemberRow({ member, votes, shades, setFilter, filter, controlOptions }){
+function MemberRow({ member, votes, shades, setFilter, filter, controlOptions, colorLookup }){
 
     const highlightRow = filter?.member?.id === member.id
 
@@ -17,7 +17,8 @@ function MemberRow({ member, votes, shades, setFilter, filter, controlOptions })
                 highlightCol={filter.voteFilter === i ? 'highlightCol': ''}
                 setFilter={setFilter}
                 controlOptions={controlOptions}
-                />
+                colorLookup={colorLookup}
+            />
     })
 
     //const highlightRow = true ? 'highlightRow' : "none"

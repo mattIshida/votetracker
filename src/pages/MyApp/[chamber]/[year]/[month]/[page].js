@@ -9,12 +9,12 @@ import NavBar from "../../../../../components/NavBar"
 // import UserHome from "./components/UserHome"
 // import IssuesPage from "./components/IssuesPage"
 import Board from '../../../../../components/Board'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Form, Pagination, Alert, Container} from 'react-bootstrap'
 import Controls from '../../../../../components/Controls'
 import Loading from '../../../../../components/Loading'
-import { Pagination } from 'react-bootstrap'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import chroma from "chroma-js"
 
 const URL = "http://localhost:9292"
 //const URL = 'http://backend:9292'
@@ -83,6 +83,7 @@ function MyApp({ members, votes, vote_count }) {
   .filter((m)=> filter.voteFilter === null || filter.positionFilter.length==0 || filter.positionFilter.includes(m.positions.positions[filter.voteFilter]?.vote_position))
   .filter(m => !controlOptions.party || controlOptions.party===m.party)
   .filter(m=> !controlOptions.state || controlOptions.state == m.state)
+  .filter(m => !controlOptions.searchMember || m.last_name.toLowerCase().includes(controlOptions.searchMember))
 
   console.log('votes_summary', votes?.map((v)=> v.summary))
   console.log('votes', votes)
@@ -91,7 +92,38 @@ function MyApp({ members, votes, vote_count }) {
   console.log('currentPage', currentPage)
   console.log('filter',filter)
 
+  const specialVoteCounts = {}
+  votes.map(voteObj => voteObj.summary.Total).forEach(summary => {
+    for(let key in summary){
+      if(['Yes', 'No', 'Not Voting', 'Present', 'Total', 'Speaker'].includes(key)) continue
+      if(!specialVoteCounts[key]) specialVoteCounts[key] = 0
+      specialVoteCounts[key] += summary[key]
+    }
+  })
+  console.log(specialVoteCounts)
 
+  // const chroma = require('chroma-js');
+
+  const inputColors = ['#FF0000', '#00FF00', '#0000FF'];
+  const numColors = Object.keys(specialVoteCounts).length;
+
+  // const baseScale = chroma.scale('sinebow');
+  // const palette = [];
+
+  // for (let i = 0; i < numColors; i++) {
+  //   const newColor = baseScale(i / (numColors - 1));
+  //   palette.push(newColor);
+  // }
+
+  const colorScale = chroma.scale(['#fafa6e','#2A4858'])
+  .mode('lch').colors(numColors)
+  const colorScale2 = []
+  for(let i = 0; i < colorScale.length/2 + 1; i++){
+    colorScale2.push(colorScale[i])
+    if(colorScale.length - i - 1 > i) colorScale2.push(colorScale[colorScale.length-i-1])
+  }
+  const colorLookup = Object.fromEntries(Object.keys(specialVoteCounts).sort((a,b)=> specialVoteCounts[b] - specialVoteCounts[a]).map((k, i) => [k, colorScale2[i]]))
+  console.log('colorLookup', colorLookup)
 
   const showingSimilar = filter.partyFilter.length>0 || filter.positionFilter.length >0 || filter.voteFilter
 
@@ -101,18 +133,32 @@ function MyApp({ members, votes, vote_count }) {
       
       <>
 
+        <Form.Select disabled={showingSimilar} value ={suffix} onChange={handleSelectMonth}>
+          {vote_count?.map(countObj => <option 
+            key={`${countObj.chamber}/${countObj.year}/${countObj.month}`} 
+            value={`/${countObj.chamber}/${countObj.year}/${countObj.month}/1`}>
+              {`${capitalize(countObj.chamber)}, ${monthFromNumeral(countObj.month)} ${countObj.year}`}
+            </option>) }
+        </Form.Select>
+
         {showingSimilar ? 
         
-          <>
+          <Alert variant='light' style={{borderWidth: '1px', borderColor: 'black'}}>
 
-            {`Showing votes similar to ${filter.member?.last_name}'s ${filter.positionFilter} on ${filter.voteFilter}` }
-            
+            <Alert.Heading>{`Showing votes similar to ${filter.member?.first_name} ${filter.member?.last_name}'s ${filter.positionFilter} on ${votes[filter.voteFilter].votable_id.toUpperCase()}` }
+            </Alert.Heading>
+            <p>{votes[filter.voteFilter].votable.short_title}</p>
+            <p>{votes[filter.voteFilter].title}</p>
+
+            <div className="d-flex justify-content-end">
+
             <Button onClick={()=>{
               setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
               }}>Done
             </Button>
+            </div>
 
-          </>
+          </Alert>
         
         : null}
 
@@ -123,14 +169,6 @@ function MyApp({ members, votes, vote_count }) {
         setControlOptions={setControlOptions} 
         disabled={showingSimilar}
       />
-
-      <Form.Select disabled={showingSimilar} value ={suffix} onChange={handleSelectMonth}>
-        {vote_count?.map(countObj => <option 
-          key={`${countObj.chamber}/${countObj.year}/${countObj.month}`} 
-          value={`/${countObj.chamber}/${countObj.year}/${countObj.month}/1`}>
-            {`${capitalize(countObj.chamber)}, ${monthFromNumeral(countObj.month)} ${countObj.year}`}
-          </option>) }
-      </Form.Select>
     
       <Button onClick={()=>{
         setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
@@ -138,14 +176,16 @@ function MyApp({ members, votes, vote_count }) {
       }}>Reset filters</Button>
 
 
-
-      <Pagination size='sm'>
-        {totalPages > 0 ? Array(totalPages).fill().map((x, i)=> i+1).map((n)=> {
-          return <Pagination.Item key={n} active={currentPage==n} onClick={()=>{
-            setCurrentPage(n)
-            router.push(`/MyApp/${chamber}/${year}/${month}/${n}`)}}>{n}</Pagination.Item>
-        }): null}
-      </Pagination>
+      <Container className='justify-content-center'>
+        <Pagination size='sm' >
+          {totalPages > 1 ? Array(totalPages).fill().map((x, i)=> i+1).map((n)=> {
+            return <Pagination.Item key={n} active={currentPage==n} onClick={()=>{
+              setCurrentPage(n)
+              router.push(`/MyApp/${chamber}/${year}/${month}/${n}`)}}>{n}</Pagination.Item>
+          }): null}
+        </Pagination>
+      </Container>
+      
 
 
 
@@ -157,6 +197,7 @@ function MyApp({ members, votes, vote_count }) {
         setFilter={setFilter}
         filter={filter}
         controlOptions={controlOptions}
+        colorLookup={colorLookup}
       />
 
 
