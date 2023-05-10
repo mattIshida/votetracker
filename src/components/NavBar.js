@@ -16,12 +16,10 @@ function NavBar() {
             </Navbar>
 
             <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Built by Matt Ishida</Modal.Body>
-            <Modal.Body>Data is refreshed daily from the ProPublica Congress API</Modal.Body>
-
+                <Modal.Body>Hover over vote tiles to see additional info</Modal.Body>
+                <Modal.Body>Click "Show similar votes" to see who else voted the same way</Modal.Body>
+                <Modal.Body>Built by Matt Ishida</Modal.Body>
+                <Modal.Body>Data is refreshed daily from the ProPublica Congress API</Modal.Body>
             </Modal>
         </>
     )

@@ -131,6 +131,9 @@ function MyApp({ members, votes, vote_count }) {
   const [showAlignmentTooltip, setShowAlignmentTooltip] = useState(false)
   const questionMark = useRef(null)
 
+  const [showControls, setShowControls] = useState(false)
+
+
   return (
     <>
       
@@ -193,19 +196,16 @@ function MyApp({ members, votes, vote_count }) {
       </Overlay>   
         </Row>
         
-    
-      <Controls votes={votes} 
-        members={members} 
-        controlOptions={controlOptions} 
-        setControlOptions={setControlOptions} 
-        disabled={showingSimilar}
-      />
-    
-      <Button onClick={()=>{
-        setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
-        setControlOptions({alignment: ''})
-      }}>Reset filters</Button>
 
+      
+        <Controls votes={votes} 
+          members={members} 
+          controlOptions={controlOptions} 
+          setControlOptions={setControlOptions} 
+          disabled={showingSimilar}
+          setFilter={setFilter}
+        />
+      
 
       <Container>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
