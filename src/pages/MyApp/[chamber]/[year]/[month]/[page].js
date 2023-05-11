@@ -207,10 +207,18 @@ function MyApp({ members, votes, vote_count }) {
         />
       
 
-      <Container>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-
-        <Pagination size='sm' >
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', height: '45px'}}>
+        
+        <div className="memberRowLabel" style={{display: 'flex', justifyContent: 'space-between', height: '28px', marginTop: '8px'}}>
+            <div style={{paddingBottom: '10px', fontWeight: 'bold', fontSize: '18px'}}>
+              Member
+            </div>
+            <div style={{paddingBottom: '10px', fontWeight: 'bold', fontSize: '18px'}}>
+              District
+            </div>
+        </div>
+        <Pagination size='sm' style={{ color: 'black', paddingBottom: '10px'}}>
           {totalPages > 1 ? Array(totalPages).fill().map((x, i)=> i+1).map((n)=> {
             return <Pagination.Item key={n} active={currentPage==n} onClick={()=>{
               setCurrentPage(n)
@@ -218,7 +226,7 @@ function MyApp({ members, votes, vote_count }) {
           }): null}
         </Pagination>
         </div>
-      </Container>
+      </div>
       {showingSimilar ? 
         
         <Alert variant='success'>
