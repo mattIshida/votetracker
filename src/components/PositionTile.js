@@ -58,12 +58,12 @@ function PositionTile({ position, vote, shade, member, idx, setFilter, controlOp
                     <div style={{fontSize: '.8rem'}}>{`${vote.question}`}</div>
                 </Popover.Header>
                 <Popover.Body>
-                    <div>                        
+                    <div className="popoverSection">                        
                         <strong>Position</strong>
                         <div>{`${member.short_title} ${member.first_name} ${member.last_name} : ${position.vote_position}`}</div>
                     </div>
 
-                    <div>
+                    <div className="popoverSection">
                         <strong>Alignment</strong>
                         <div style={{display: 'flex'}}>
                             <span style={{marginRight: '1rem'}}>{`Party: ${Math.round(alignmentWithParty*100)}%`}</span>
@@ -71,7 +71,7 @@ function PositionTile({ position, vote, shade, member, idx, setFilter, controlOp
                         </div> 
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                        <Button className="mt-2"variant="primary" onClick={() => {
+                        <Button className="mt-2"variant="dark" onClick={() => {
                             setFilter({positionFilter: [position.vote_position], partyFilter: [member.party], voteFilter: idx, member: member})}}
                         >
                             See similar votes
@@ -79,16 +79,16 @@ function PositionTile({ position, vote, shade, member, idx, setFilter, controlOp
                     </div>
                     
                     <hr/>
-                    <div>
+                    <div className="popoverSection">
                         <strong>{vote.votable_type}</strong>
                         <div>{vote?.description}</div>
                     </div>
-                    <div>
+                    <div className="popoverSection">
                         <strong>Result</strong>
                         <div>{vote?.result}</div>
                     </div>
                     {vote.votable?.govtrack_url || vote.votable?.congressdotgov_url ? 
-                        <div>
+                        <div className="popoverSection">
                             <strong>More details</strong>
                             <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
                                 {vote.votable?.govtrack_url ? <a href={vote.votable?.govtrack_url}>Govtrack</a>: null}

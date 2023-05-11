@@ -270,3 +270,11 @@ code {
 .pageNumber {
   margin: 0rem .06rem;
 }
+
+.popoverSection {
+  margin-bottom: 12px;
+}
+
+.popoverSection:last-of-type {
+  margin-bottom: 6px;
+}
