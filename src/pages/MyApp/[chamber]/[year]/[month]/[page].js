@@ -96,7 +96,7 @@ function MyApp({ members, votes, vote_count }) {
   const specialVoteCounts = {}
   votes.map(voteObj => voteObj.summary.Total).forEach(summary => {
     for(let key in summary){
-      if(['Yes', 'No', 'Not Voting', 'Present', 'Total', 'Speaker'].includes(key)) continue
+      if(['Yes', 'No', 'Not Voting', 'Total', 'Speaker'].includes(key)) continue
       if(!specialVoteCounts[key]) specialVoteCounts[key] = 0
       specialVoteCounts[key] += summary[key]
     }
@@ -226,7 +226,7 @@ function MyApp({ members, votes, vote_count }) {
           
           <div className="d-flex justify-content-between">
           
-          <p style={{paddingTop: '8px', marginBottom: '0px'}}>{`Showing votes similar to ${filter.member?.first_name} ${filter.member?.last_name}'s ${filter.positionFilter} vote on ${votes[filter.voteFilter].votable_id?.toUpperCase()}` }</p>
+          <p style={{paddingTop: '8px', marginBottom: '0px'}}>{`Showing votes similar to ${filter.member?.first_name} ${filter.member?.last_name}'s ${filter.positionFilter} vote on ${votes[filter.voteFilter].votable_id?.toUpperCase() || votes[filter.voteFilter].question}` }</p>
 
           <Button variant="outline-success" onClick={()=>{
             setFilter({partyFilter: [], positionFilter: [], voteFilter: null})
